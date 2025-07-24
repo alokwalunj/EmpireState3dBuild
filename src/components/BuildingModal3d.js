@@ -4,6 +4,15 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { GLTFLoader } from "three-stdlib";
 import { GUI } from "dat.gui";
 import { angleRadians } from "../utils/angle"; // make sure this file exists
+import { TextGeometry } from "three-stdlib";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import helvetiker from "three/examples/fonts/helvetiker_regular.typeface.json";
+
+
+
+
+
+
 
 const EmpireStateBuilding3d = () => {
   const gui = new GUI();
@@ -11,6 +20,24 @@ const EmpireStateBuilding3d = () => {
 
   // Load GLB model
   const gltf = useLoader(GLTFLoader, process.env.PUBLIC_URL + "/models/EmpireState.glb");
+
+
+  const font = new FontLoader().parse(helvetiker);
+
+  const textOptions = {
+    font,
+    size: 0.8,
+    height: 0.05,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.01,
+    bevelSize: 0.005,
+    bevelSegments: 5,
+  };
+
+  const textGeometry = new TextGeometry("Empire State Of Mind", textOptions);
+  textGeometry.center(); // optional: center the text
+
 
   // useEffect(() => {
   //   if (meshRef.current) {
@@ -56,6 +83,11 @@ const EmpireStateBuilding3d = () => {
         <planeGeometry args={[5, 5]} />
         <meshStandardMaterial color="#eeeeee" />
       </mesh>
+
+      <mesh geometry={textGeometry} position={[-0.5, 3.9, -1]}>
+        <meshStandardMaterial color="#FFD700" />
+      </mesh>
+
 
       {/* Lighting */}
       <ambientLight intensity={0.5} />
